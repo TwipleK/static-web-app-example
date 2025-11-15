@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Game Of Life</title>
+        <link rel="stylesheet" href="GOL.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1>Game Of Life</h1>
+        <section id="grid"></section>
+
+        <div>
+        <button id="start">Start</button>
+        <button id="clear">Clear</button>
+        </div>
+
+        <script>
+
+            let b;
+
+            document.getElementById("clear").onclick = function(){
+                for(let i = 1; i < 25; i++){
+                for(let j = 1; j < 49; j++){
+                    document.getElementById(i + "_" + j).style.backgroundColor = "rgba(255, 255, 255, 0.748)"
+                    }
+                }
+            }
+
+
+
+            for(let i = 1; i < 25; i++){
+                let a = document.createElement("div");
+                a.id = i;
+                document.getElementById("grid").appendChild(a);
+                for(let j = 1; j < 49; j++){
+                    let a = document.createElement("div");
+                    a.id = i + "_" + j;
+                    document.getElementById(i).appendChild(a);
+                    a.onclick = function(){
+                        if(a.style.backgroundColor == "yellow"){
+                            a.style.backgroundColor = "rgba(255, 255, 255, 0.748)"
+                        }else{
+                            a.style.backgroundColor = "yellow"
+                        }
+                    }
+                }
+            }
+
+
+            document.getElementById("start").onclick = function(){
+                
+                if(document.getElementById("start").innerHTML == "Start"){
+                    document.getElementById("start").innerHTML = "End";
+                        b = setInterval(run, 1000);
+
+                }else{
+                    document.getElementById("start").innerHTML = "Start"
+                    clearInterval(b);
+                }
+            }
+
+
+            
+            function run(){
+            
+            let arr = [];
+            
+                    for(let i = 1; i < 25; i++){
+                        arr[i-1] = [];
+                        // console.log(arr)
+                    for(let j = 1; j < 49; j++){
+                        console.log((i) + "_" + (j))
+                        let l = document.getElementById(i + "_" + j);
+                        if(l.style.backgroundColor == "yellow"){
+                            let counter = -1;
+                            for(let y = -1; y < 2; y++){
+                            for(let x = -1; x < 2; x++){
+                                // console.log((i+y) + "_" + (j+x))
+                                // console.log(document.getElementById((i+y) + "_" + (j+x)))
+                                try{
+                                if(document.getElementById((i+y) + "_" + (j+x)).style.backgroundColor == "yellow") counter++
+                                }catch{}
+                        }
+                        
+                    }
+                    // console.log(counter)
+                    arr[i-1][j-1] = (counter == 3 || counter == 2);
+                    // console.log(arr[i-1][j-1]);
+                }else{
+                            let counter = 0;
+                            for(let y = -1; y < 2; y++){
+                            for(let x = -1; x < 2; x++){
+                                // console.log((i+y) + "_" + (j+x))
+                                // console.log(document.getElementById((i+y) + "_" + (j+x))) 
+                                try{
+                                if(document.getElementById((i+y) + "_" + (j+x)).style.backgroundColor == "yellow") counter++
+                                }catch{}
+                        }
+                        console.log(counter)
+                    arr[i-1][j-1] = (counter == 3)
+                    }
+                }
+            }
+        }
+
+        console.log(arr);
+
+            for(let i = 1; i < 25; i++){
+                for(let j = 1; j < 49; j++){
+                    if(arr[i-1][j-1]){
+                        console.log("yo if")
+                        console.log(i + "_" + j);
+                        document.getElementById(i + "_" + j).style.backgroundColor = "yellow";
+                    }else{
+                        document.getElementById(i + "_" + j).style.backgroundColor = "rgba(255, 255, 255, 0.748)";
+                    }
+                }
+            }
+    }
+
+            
+        </script>
+    </body>
+</html>
