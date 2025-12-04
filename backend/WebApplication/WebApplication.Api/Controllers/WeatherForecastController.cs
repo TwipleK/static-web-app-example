@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using MyWebApplication.Db;
+using System.Linq;
 
 namespace WebApplication.Api.Controllers
 {
@@ -12,22 +14,27 @@ namespace WebApplication.Api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly WeatherDatabaseContext weatherDatabaseContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, WeatherDatabaseContext weatherDatabaseContext)
         {
             _logger = logger;
+            this.weatherDatabaseContext = weatherDatabaseContext;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var query = weatherDatabaseContext.WeatherForecasts
+                .Select(x => new WeatherForecast
+                {
+                    Date = x.Date,
+                    TemperatureC = x.TemperatureC,
+                    Summary = x.Summary
+                });
+
+            return query.ToList();
+
         }
     }
 }
