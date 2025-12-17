@@ -18,7 +18,7 @@ builder.Configuration.AddAzureKeyVault(
 
 // TODO SP: Diff AddAzureSql vs. SqlServer "Identity-Stuff"
 builder.Services.AddDbContext<WeatherDatabaseContext>(
-    x => x.UseSqlServer(builder.Configuration["ConnectionStrings:Database"])
+    x => x.UseSqlServer(builder.Configuration["ConfigurationString:Database"])
     );
 
 var app = builder.Build();
