@@ -10,7 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // TODO SP: Diff AddAzureSql vs. SqlServer "Identity-Stuff"
-builder.Services.AddDbContext<WeatherDatabaseContext>();
+builder.Services.AddDbContext<WeatherDatabaseContext>(
+    );
 
 var app = builder.Build();
 

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MyWebApplication.Db;
-using System.Linq;
 
 namespace WebApplication.Api.Controllers
 {
@@ -25,16 +24,13 @@ namespace WebApplication.Api.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            var query = weatherDatabaseContext.WeatherForecasts
-                .Select(x => new WeatherForecast
+            return weatherDatabaseContext.WeatherForecasts
+                .Select(x => new WeatherForecast()
                 {
                     Date = x.Date,
-                    TemperatureC = x.TemperatureC,
-                    Summary = x.Summary
-                });
-
-            return query.ToList();
-
+                    Summary = x.Summary,
+                    TemperatureC = x.TemperatureC
+                }).ToList();
         }
     }
 }
