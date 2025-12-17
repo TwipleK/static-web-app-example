@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MyWebApplication.Db;
 
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 // TODO SP: Diff AddAzureSql vs. SqlServer "Identity-Stuff"
 builder.Services.AddDbContext<WeatherDatabaseContext>(
+    x => x.UseSqlServer(builder.Configuration["ConnectionStrings:Database"])
     );
 
 var app = builder.Build();
